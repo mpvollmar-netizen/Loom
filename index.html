@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loom Analytics | Insight Over Dashboards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030305;
+            --purple: #7c3aed;
+            --pink: #db2777;
+            --blue: #2563eb;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: #fff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- THE DIGITAL LOOM BACKGROUND --- */
+        .loom-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; filter: blur(100px);
+            background: radial-gradient(circle at center, #0a0a12 0%, #030305 100%);
+        }
+
+        .orb {
+            position: absolute; border-radius: 50%; opacity: 0.5;
+            animation: heartbeat 6s infinite ease-in-out;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.15); opacity: 0.6; }
+        }
+
+        .orb-1 { width: 60vw; height: 60vw; background: var(--purple); top: -10%; left: -10%; }
+        .orb-2 { width: 50vw; height: 50vw; background: var(--blue); bottom: -10%; right: -5%; animation-delay: 1s; }
+
+        .glass-pane {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; backdrop-filter: blur(20px) saturate(150%);
+            background: rgba(3, 3, 5, 0.5);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            padding: 1.5rem 2rem; display: flex; justify-content: space-between;
+            max-width: 1200px; margin: 0 auto; position: sticky; top: 0; z-index: 100;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.6); text-decoration: none;
+            margin-left: 2rem; font-size: 0.9rem; transition: 0.3s;
+        }
+
+        .nav-links a:hover { color: #fff; }
+
+        /* --- HERO --- */
+        .hero {
+            height: 90vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 10vw, 5.5rem); font-weight: 700;
+            line-height: 0.95; letter-spacing: -0.05em;
+            background: linear-gradient(to bottom, #fff 40%, rgba(255,255,255,0.3));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* --- HOW IT WORKS: THE STITCHING ENGINE --- */
+        .how-it-works {
+            padding: 8rem 2rem; max-width: 1100px; margin: 0 auto;
+        }
+
+        .section-tag {
+            color: var(--purple); font-weight: 700; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 1rem;
+            display: block; text-align: center;
+        }
+
+        .workflow-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem; margin-top: 4rem;
+        }
+
+        .step-card {
+            background: var(--glass); border: 1px solid var(--border);
+            padding: 2.5rem; border-radius: 24px; position: relative;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .step-card:hover {
+            transform: translateY(-10px); border-color: var(--purple);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.1);
+        }
+
+        .step-num {
+            font-size: 0.8rem; color: var(--purple); font-weight: 700;
+            margin-bottom: 1rem; display: block;
+        }
+
+        .stitch-line {
+            height: 2px; background: linear-gradient(90deg, var(--purple), transparent);
+            margin: 1.5rem 0; width: 50px;
+        }
+
+        /* --- CORE TENANTS / SECURITY --- */
+        .tenants-strip {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1px; background: var(--border); margin-top: 6rem;
+            border-radius: 24px; overflow: hidden; border: 1px solid var(--border);
+        }
+
+        .tenant-item {
+            background: var(--bg); padding: 3rem; text-align: center;
+        }
+
+        .tenant-item h3 { margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .tenant-item p { font-size: 0.9rem; opacity: 0.5; }
+
+        .btn-primary {
+            background: #fff; color: #000; padding: 1rem 2rem;
+            border-radius: 12px; text-decoration: none; font-weight: 700;
+            display: inline-block; margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loom-container">
+        <div class="orb orb-1" id="orb1"></div>
+        <div class="orb orb-2" id="orb2"></div>
+    </div>
+    <div class="glass-pane"></div>
+
+    <nav>
+        <div style="font-weight: 700; letter-spacing: -1px;">LOOM.</div>
+        <div class="nav-links">
+            <a href="#how">How it Works</a>
+            <a href="#security">Security</a>
+            <a href="#" style="background: #fff; color: #000; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 700;">Join Pilot</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <span class="section-tag">V2.6.6 Release</span>
+        <h1>Stitch Insights.<br>Not Dashboards.</h1>
+        <p style="opacity: 0.6; margin-top: 2rem; max-width: 500px; line-height: 1.6;">
+            Translating vague business questions into structured visual truth. On-demand AI-powered analytics for growing teams.
+        </p>
+        <a href="#how" class="btn-primary">See the Process</a>
+    </section>
+
+    <section class="how-it-works" id="how">
+        <span class="section-tag">The Workflow</span>
+        <h2 style="text-align: center; font-size: 2.5rem; letter-spacing: -1px;">Question to Impact in Minutes</h2>
+        
+        <div class="workflow-grid">
+            <div class="step-card">
+                <span class="step-num">01. INGESTION</span>
+                <h3>The Question</h3>
+                <div class="stitch-line"></div>
+                <p style="opacity: 0.6; font-size: 0.95rem;">Paste vague client requests from Slack or Email. "Why did conversions drop?"</p>
+            </div>
+
+            <div class="step-card">
+                <span class="step-num">02. WEAVING</span>
+                <h3>Stitched Logic</h3>
+                <div class="stitch-line"></div>
+                <p style="opacity: 0.6; font-size: 0.95rem;">Loom translates intent into structured query logic and pulls patterns from your data silo.</p>
+            </div>
+
+            <div class="step-card">
+                <span class="step-num">03. DELIVERY</span>
+                <h3>Sanity-Check</h3>
+                <div class="stitch-line"></div>
+                <p style="opacity: 0.6; font-size: 0.95rem;">Human-in-the-loop validation. In 5 minutes, deliver root-cause hypotheses and next actions.</p>
+            </div>
+        </div>
+
+        <div class="tenants-strip">
+            <div class="tenant-item">
+                <h3>Enterprise Security</h3>
+                <p>Read-only access. Data source stays in your VPC.</p>
+            </div>
+            <div class="tenant-item">
+                <h3>Integrity First</h3>
+                <p>No hallucinations. Logic is verifiable by analysts.</p>
+            </div>
+            <div class="tenant-item">
+                <h3>Productivity</h3>
+                <p>Focus on strategy. Loom handles the row-level labor.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 4rem; opacity: 0.3; font-size: 0.8rem;">
+        &copy; 2026 LOOM ANALYTICS. STITCHED IN THE CLOUD.
+    </footer>
+
+    <script>
+        // Smooth Parallax Engine
+        const orb1 = document.getElementById('orb1');
+        const orb2 = document.getElementById('orb2');
+
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX - window.innerWidth / 2) / 40;
+            const y = (e.clientY - window.innerHeight / 2) / 40;
+
+            orb1.style.transform = `translate(${x}px, ${y}px)`;
+            orb2.style.transform = `translate(${-x * 1.5}px, ${-y * 1.5}px)`;
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            const x = (touch.clientX - window.innerWidth / 2) / 25;
+            const y = (touch.clientY - window.innerHeight / 2) / 25;
+
+            orb1.style.transform = `translate(${x}px, ${y}px)`;
+            orb2.style.transform = `translate(${-x}px, ${-y}px)`;
+        });
+    </script>
+</body>
+</html>
