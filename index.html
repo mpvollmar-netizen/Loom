@@ -2,233 +2,198 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loom Analytics | Insight Over Dashboards</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Loom | Stitched Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #030305;
-            --purple: #7c3aed;
-            --pink: #db2777;
-            --blue: #2563eb;
+            --purple: #8b5cf6;
+            --blue: #3b82f6;
+            --pink: #ec4899;
             --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: #fff;
             overflow-x: hidden;
-            scroll-behavior: smooth;
+            height: 100vh;
         }
 
-        /* --- THE DIGITAL LOOM BACKGROUND --- */
-        .loom-container {
+        /* --- THE ORB ENGINE (Heartbeat & Drift) --- */
+        .orb-wrapper {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; filter: blur(100px);
-            background: radial-gradient(circle at center, #0a0a12 0%, #030305 100%);
+            z-index: -2;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #0d0d1a 0%, #030305 100%);
         }
 
         .orb {
-            position: absolute; border-radius: 50%; opacity: 0.5;
-            animation: heartbeat 6s infinite ease-in-out;
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.5;
+            mix-blend-mode: screen;
+            transition: transform 0.3s ease-out;
+            animation: heartbeat 8s infinite alternate ease-in-out;
         }
 
         @keyframes heartbeat {
-            0%, 100% { transform: scale(1); opacity: 0.4; }
-            50% { transform: scale(1.15); opacity: 0.6; }
+            0% { transform: scale(1); opacity: 0.4; filter: blur(80px); }
+            100% { transform: scale(1.3); opacity: 0.7; filter: blur(120px); }
         }
 
-        .orb-1 { width: 60vw; height: 60vw; background: var(--purple); top: -10%; left: -10%; }
-        .orb-2 { width: 50vw; height: 50vw; background: var(--blue); bottom: -10%; right: -5%; animation-delay: 1s; }
+        .orb-1 { width: 90vw; height: 90vw; background: var(--purple); top: -20%; left: -10%; }
+        .orb-2 { width: 80vw; height: 80vw; background: var(--blue); bottom: -10%; right: -10%; animation-delay: -2s; }
+        .orb-3 { width: 60vw; height: 60vw; background: var(--pink); top: 20%; left: 30%; animation-delay: -4s; }
 
+        /* --- LIQUID GLASS LAYER --- */
         .glass-pane {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; backdrop-filter: blur(20px) saturate(150%);
-            background: rgba(3, 3, 5, 0.5);
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            backdrop-filter: blur(50px) saturate(180%);
+            -webkit-backdrop-filter: blur(50px) saturate(180%);
+            background: rgba(3, 3, 5, 0.4);
         }
 
-        /* --- NAVIGATION --- */
-        nav {
-            padding: 1.5rem 2rem; display: flex; justify-content: space-between;
-            max-width: 1200px; margin: 0 auto; position: sticky; top: 0; z-index: 100;
-        }
-
-        .nav-links a {
-            color: rgba(255,255,255,0.6); text-decoration: none;
-            margin-left: 2rem; font-size: 0.9rem; transition: 0.3s;
-        }
-
-        .nav-links a:hover { color: #fff; }
-
-        /* --- HERO --- */
+        /* --- HERO & CONTENT --- */
         .hero {
-            height: 90vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .pill {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
         }
 
         h1 {
-            font-size: clamp(3rem, 10vw, 5.5rem); font-weight: 700;
-            line-height: 0.95; letter-spacing: -0.05em;
-            background: linear-gradient(to bottom, #fff 40%, rgba(255,255,255,0.3));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-size: clamp(2.8rem, 12vw, 6rem);
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: -0.06em;
+            background: linear-gradient(180deg, #fff 40%, rgba(255,255,255,0.4));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* --- HOW IT WORKS: THE STITCHING ENGINE --- */
+        .sub-text {
+            max-width: 450px;
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            opacity: 0.6;
+            line-height: 1.5;
+        }
+
+        .cta-btn {
+            margin-top: 3rem;
+            background: #fff;
+            color: #000;
+            padding: 1.2rem 2.8rem;
+            border-radius: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+            transition: 0.4s;
+        }
+
+        .cta-btn:active { transform: scale(0.95); }
+
+        /* Custom "Stitched" Scroll Section */
         .how-it-works {
-            padding: 8rem 2rem; max-width: 1100px; margin: 0 auto;
+            padding: 6rem 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
-        .section-tag {
-            color: var(--purple); font-weight: 700; font-size: 0.8rem;
-            text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 1rem;
-            display: block; text-align: center;
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 30px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
         }
 
-        .workflow-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem; margin-top: 4rem;
-        }
-
-        .step-card {
-            background: var(--glass); border: 1px solid var(--border);
-            padding: 2.5rem; border-radius: 24px; position: relative;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .step-card:hover {
-            transform: translateY(-10px); border-color: var(--purple);
-            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.1);
-        }
-
-        .step-num {
-            font-size: 0.8rem; color: var(--purple); font-weight: 700;
-            margin-bottom: 1rem; display: block;
-        }
-
-        .stitch-line {
-            height: 2px; background: linear-gradient(90deg, var(--purple), transparent);
-            margin: 1.5rem 0; width: 50px;
-        }
-
-        /* --- CORE TENANTS / SECURITY --- */
-        .tenants-strip {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 1px; background: var(--border); margin-top: 6rem;
-            border-radius: 24px; overflow: hidden; border: 1px solid var(--border);
-        }
-
-        .tenant-item {
-            background: var(--bg); padding: 3rem; text-align: center;
-        }
-
-        .tenant-item h3 { margin-bottom: 0.5rem; font-size: 1.1rem; }
-        .tenant-item p { font-size: 0.9rem; opacity: 0.5; }
-
-        .btn-primary {
-            background: #fff; color: #000; padding: 1rem 2rem;
-            border-radius: 12px; text-decoration: none; font-weight: 700;
-            display: inline-block; margin-top: 2rem;
+        .card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--purple), transparent);
         }
     </style>
 </head>
 <body>
 
-    <div class="loom-container">
-        <div class="orb orb-1" id="orb1"></div>
-        <div class="orb orb-2" id="orb2"></div>
+    <div class="orb-wrapper">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
     </div>
     <div class="glass-pane"></div>
 
-    <nav>
-        <div style="font-weight: 700; letter-spacing: -1px;">LOOM.</div>
-        <div class="nav-links">
-            <a href="#how">How it Works</a>
-            <a href="#security">Security</a>
-            <a href="#" style="background: #fff; color: #000; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 700;">Join Pilot</a>
-        </div>
-    </nav>
-
     <section class="hero">
-        <span class="section-tag">V2.6.6 Release</span>
+        <div class="pill">Stitching AI Reality</div>
         <h1>Stitch Insights.<br>Not Dashboards.</h1>
-        <p style="opacity: 0.6; margin-top: 2rem; max-width: 500px; line-height: 1.6;">
-            Translating vague business questions into structured visual truth. On-demand AI-powered analytics for growing teams.
-        </p>
-        <a href="#how" class="btn-primary">See the Process</a>
+        <p class="sub-text">We translate vague business intent into structured visual truth. Productivity, delivered at the speed of thought.</p>
+        <a href="#how" class="cta-btn">Join Pilot</a>
     </section>
 
-    <section class="how-it-works" id="how">
-        <span class="section-tag">The Workflow</span>
-        <h2 style="text-align: center; font-size: 2.5rem; letter-spacing: -1px;">Question to Impact in Minutes</h2>
-        
-        <div class="workflow-grid">
-            <div class="step-card">
-                <span class="step-num">01. INGESTION</span>
-                <h3>The Question</h3>
-                <div class="stitch-line"></div>
-                <p style="opacity: 0.6; font-size: 0.95rem;">Paste vague client requests from Slack or Email. "Why did conversions drop?"</p>
-            </div>
-
-            <div class="step-card">
-                <span class="step-num">02. WEAVING</span>
-                <h3>Stitched Logic</h3>
-                <div class="stitch-line"></div>
-                <p style="opacity: 0.6; font-size: 0.95rem;">Loom translates intent into structured query logic and pulls patterns from your data silo.</p>
-            </div>
-
-            <div class="step-card">
-                <span class="step-num">03. DELIVERY</span>
-                <h3>Sanity-Check</h3>
-                <div class="stitch-line"></div>
-                <p style="opacity: 0.6; font-size: 0.95rem;">Human-in-the-loop validation. In 5 minutes, deliver root-cause hypotheses and next actions.</p>
-            </div>
+    <div class="how-it-works" id="how">
+        <div class="card">
+            <h3 style="color: var(--purple); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 1rem;">THE PROCESS</h3>
+            <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Vague Question → Root Cause</h2>
+            <p style="opacity: 0.6;">Paste a Slack request like "Why did conversions drop?" Loom weaves the data source, verifies logic, and summarizes the patterns in 5 minutes. No agents. No hallucinations.</p>
         </div>
-
-        <div class="tenants-strip">
-            <div class="tenant-item">
-                <h3>Enterprise Security</h3>
-                <p>Read-only access. Data source stays in your VPC.</p>
-            </div>
-            <div class="tenant-item">
-                <h3>Integrity First</h3>
-                <p>No hallucinations. Logic is verifiable by analysts.</p>
-            </div>
-            <div class="tenant-item">
-                <h3>Productivity</h3>
-                <p>Focus on strategy. Loom handles the row-level labor.</p>
-            </div>
+        <div class="card">
+            <h3 style="color: var(--blue); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 1rem;">SECURITY</h3>
+            <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Read-Only Integrity</h2>
+            <p style="opacity: 0.6;">Your data never leaves your VPC. Loom is a read-only stitching engine designed for enterprise-grade security and analyst sanity-checks.</p>
         </div>
-    </section>
-
-    <footer style="text-align: center; padding: 4rem; opacity: 0.3; font-size: 0.8rem;">
-        &copy; 2026 LOOM ANALYTICS. STITCHED IN THE CLOUD.
-    </footer>
+    </div>
 
     <script>
-        // Smooth Parallax Engine
-        const orb1 = document.getElementById('orb1');
-        const orb2 = document.getElementById('orb2');
+        const orbs = document.querySelectorAll('.orb');
+        
+        // Advanced Parallax Interaction
+        const handleInteraction = (e) => {
+            const x = e.clientX || (e.touches && e.touches[0].clientX);
+            const y = e.clientY || (e.touches && e.touches[0].clientY);
+            
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
 
-        document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX - window.innerWidth / 2) / 40;
-            const y = (e.clientY - window.innerHeight / 2) / 40;
+            orbs.forEach((orb, i) => {
+                const depth = (i + 1) * 20;
+                const moveX = (x - centerX) / depth;
+                const moveY = (y - centerY) / depth;
+                orb.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        };
 
-            orb1.style.transform = `translate(${x}px, ${y}px)`;
-            orb2.style.transform = `translate(${-x * 1.5}px, ${-y * 1.5}px)`;
-        });
-
-        document.addEventListener('touchmove', (e) => {
-            const touch = e.touches[0];
-            const x = (touch.clientX - window.innerWidth / 2) / 25;
-            const y = (touch.clientY - window.innerHeight / 2) / 25;
-
-            orb1.style.transform = `translate(${x}px, ${y}px)`;
-            orb2.style.transform = `translate(${-x}px, ${-y}px)`;
-        });
+        window.addEventListener('mousemove', handleInteraction);
+        window.addEventListener('touchmove', handleInteraction);
     </script>
 </body>
 </html>
